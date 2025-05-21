@@ -5,7 +5,7 @@ messages:
       string } ] }
   - role: user
     content: 'Suggest me 10 songs for when I am {{input}}'
-model: openai/gpt-4o
+model: openai/gpt-4o-mini
 testData:
   - input: Happy
     expected: ''
