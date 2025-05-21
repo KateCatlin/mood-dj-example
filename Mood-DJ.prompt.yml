@@ -1,0 +1,34 @@
+messages:
+  - role: system
+    content: >-
+      Respond formatted in JSON in the form { songs: [{title: string, artist:
+      string } ] }
+  - role: user
+    content: 'Suggest me 10 songs for when I am {{input}}'
+model: openai/gpt-4o
+testData:
+  - input: Happy
+    expected: ''
+  - input: Sad
+    expected: ''
+  - input: Stoked to be talking at Upscale Conference
+    expected: ''
+  - input: 'Is there anything in my teeth? '
+    expected: ''
+evaluators:
+  - name: 'Taylor String Check '
+    string:
+      contains: Taylor Swift
+  - name: LLM-as-a-Taylor-judge
+    llm:
+      modelId: 'azureml://registries/azure-openai/models/gpt-4o-mini/versions/2024-07-18'
+      prompt: >-
+        Check that {{completion}} lists enough Taylor Swift songs according to
+        your judgement. Respond with only YES or NO (in uppercase). YES or NO
+        should be the only output in the last line of your response.
+      choices:
+        - choice: 'YES'
+          score: 1
+        - choice: 'NO'
+          score: 0
+      systemPrompt: 'You love Taylor Swift. '
